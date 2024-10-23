@@ -1,13 +1,37 @@
-import {DatabaseService} from "./databaseService";
+import createBrand from "./db/brand";
 
 export class BrandService {
-    private dbService: DatabaseService;
+    private brand: ReturnType<typeof createBrand>;
     
-    constructor(dbService: DatabaseService) {
-        this.dbService = dbService;
+    constructor() {
+        this.brand = createBrand();
+    }
+    
+    async addBrand(brandName: string) {
+        let brand;
+        try {
+            brand = await this.brand.create({brandName});
+        } catch (e: any) {
+            console.log(`Failed to add brand ${brandName}: ${e.message}`);
+        }
+        return brand;
     }
 
     async fetchAllBrands() {
-        return this.dbService.fetchAllBrands();
+        return await this.brand.findAll();
+    }
+
+    async fetchBrandById(id: number) {
+        return await this.brand.findByPk(id);
+    }
+
+    async fetchBrandByName(brandName: string) {
+        return await this.brand.findOne({
+            where: {brandName: brandName}
+        });
+    }
+
+    getBrand() {
+        return this.brand;
     }
 }
