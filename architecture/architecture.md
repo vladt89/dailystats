@@ -47,3 +47,11 @@ to call other services for the same data, thus it is good to introduce caching, 
 Moreover, in case other services are unavailable we might be able to proceed without them as we have the data in cache.
 When there is no data in the cache, we should introduce the retry logic with configurable value as well as timeout for 
 this type or requests. This way we will be able to retrieve data after some time if the targeted service comes up.
+
+## AWS
+
+Running on AWS allows us to have serverless architecture which means that we don't need to manage any servers ourselves 
+which includes actual storing of the servers as well as keeping them safe and updated. Moreover, AWS provides additional 
+services that could help us to take care of our system, for example, IAM service helps us define who can do what in our 
+system by defining roles and policies. CodePipeline and CodeBuild could help us to build and deploy our applications.
+CloudFormation will help us with defining the infrastructure. And much more.
