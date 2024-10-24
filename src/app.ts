@@ -3,6 +3,7 @@ import initializeServices, {asinService, brandService, listingService, statsServ
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import brandRoute from "./routes/brandRoute";
+import statsRoute from "./routes/statsRoute";
 
 const app = express();
 const port = 3333;
@@ -30,6 +31,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api', brandRoute);
+app.use('/api', statsRoute);
 
 app.get('/brands', async (req: Request, res: Response) => {
     const brands = await brandService.fetchAllBrands();

@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from "../src/app";
-import {asinService, brandService, listingService, statsService} from "../src/serviceInitializer";
+import app from "../app";
+import {asinService, brandService, listingService, statsService} from "../serviceInitializer";
 
 describe('test brands', () => {
     beforeAll(async () => {
