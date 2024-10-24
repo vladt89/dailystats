@@ -8,28 +8,32 @@ const asinService = new AsinService();
 const listingService = new ListingService();
 const statsService = new StatsService();
 
-const initializeServices = async () => {
+const initializeServices = async (createSomeData?: boolean) => {
     try {
-        await brandService.getBrand().sync({ force: true });
+        await brandService.getBrand().sync({force: true});
+        await asinService.getAsin().sync({force: true});
+        await listingService.getListing().sync({force: true});
+        await statsService.getDailyStats().sync({force: true});
+            
+        if (!createSomeData) {
+            return;
+        }
+        console.log("Creating some data...");
+        
         const nikeBrand = await brandService.addBrand("Nike");
         await brandService.addBrand("Adidas");
         await brandService.addBrand("Hoka");
         
-        console.log("added brands");
-
-        await asinService.getAsin().sync({ force: true });
         let asinForNike;
         if (nikeBrand !== undefined) {
             asinForNike = await asinService.addAsin("B017VXKVXE", nikeBrand.id);
         }
-
-        await listingService.getListing().sync({ force: true });
+        
         let amazonListing;
         if (asinForNike !== undefined) {
             amazonListing = await listingService.addListing("amazon", asinForNike.id);
         }
-
-        await statsService.getDailyStats().sync({ force: true });
+        
         if (amazonListing !== undefined) {
             await statsService.createStats({
                 clickAmount: 10,
@@ -37,6 +41,8 @@ const initializeServices = async () => {
                 listingId: amazonListing.id,
             });
         }
+
+        console.log("Some data was created successfully");
     } catch (err) {
         console.error('Error initializing services:', err);
         throw err;

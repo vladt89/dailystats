@@ -4,12 +4,23 @@ import initializeServices, {asinService, brandService, listingService, statsServ
 const app = express();
 const port = 3333;
 
+const CREATE_SOME_DATA = process.env.CREATE_SOME_DATA === 'true';
+
 app.use(express.json());
 
 app.get('/brands', async (req: Request, res: Response) => {
-    console.log("fetching brands");
     const brands = await brandService.fetchAllBrands();
     res.json(brands);
+});
+
+app.post('/brands/:brandName', async (req: Request, res: Response) => {
+    let brand;
+    try {
+        brand = await brandService.addBrand(req.params.brandName);
+    } catch (e: any) {
+        res.status(400).json(e.message);
+    }
+    res.status(201).json(brand);
 });
 
 app.get('/statistics/:brand/:asin/:day', async (req: Request, res: Response) => {
@@ -88,16 +99,16 @@ app.post('/statistics', async (req: Request, res: Response) => {
     res.status(201).json(dailyStats);
 });
 
-const startServer = async () => {
+export const startServer = async () => {
     try {
-        await initializeServices();
+        await initializeServices(CREATE_SOME_DATA);
         app.listen(port, () => {
             console.log(`Server is running on http://localhost:${port}`);
         });
     } catch (e) {
         console.error('Failed to initialize services');
+        process.exit(1);
     }
 };
-startServer();
 
 export default app;

@@ -12,7 +12,9 @@ export class BrandService {
         try {
             brand = await this.brand.create({brandName});
         } catch (e: any) {
-            console.log(`Failed to add brand ${brandName}: ${e.message}`);
+            const message = `Failed to add brand ${brandName}: ${e.message}`;
+            console.error(message);
+            throw new Error(message);
         }
         return brand;
     }
@@ -28,6 +30,12 @@ export class BrandService {
     async fetchBrandByName(brandName: string) {
         return await this.brand.findOne({
             where: {brandName: brandName}
+        });
+    }
+    
+    async removeAllBrands() {
+        await this.brand.destroy({
+            where: {},
         });
     }
 

@@ -18,7 +18,8 @@ const createBrand = () => {
         brandName: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: 0
+            defaultValue: 0,
+            unique: true,
         },
     }, {
         sequelize,
