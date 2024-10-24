@@ -1,4 +1,4 @@
-import createListing from "./db/listing";
+import createListing from "../db/listing";
 
 export class ListingService {
     private listing: ReturnType<typeof createListing>;

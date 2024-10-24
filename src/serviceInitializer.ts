@@ -1,7 +1,7 @@
-import {BrandService} from "./brandService";
-import {AsinService} from "./asinService";
-import {ListingService} from "./listingService";
-import {StatsService} from "./statsService";
+import {BrandService} from "./service/brandService";
+import {AsinService} from "./service/asinService";
+import {ListingService} from "./service/listingService";
+import {StatsService} from "./service/statsService";
 
 const brandService = new BrandService();
 const asinService = new AsinService();

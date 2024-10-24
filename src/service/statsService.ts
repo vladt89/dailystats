@@ -1,4 +1,4 @@
-import createDailyStats from "./db/dailyStats";
+import createDailyStats from "../db/dailyStats";
 import {Op} from "sequelize";
 
 export class StatsService {

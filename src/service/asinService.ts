@@ -1,4 +1,4 @@
-import createAsin from "./db/asin";
+import createAsin from "../db/asin";
 
 export class AsinService {
     private asin: ReturnType<typeof createAsin>;

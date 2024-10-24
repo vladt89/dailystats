@@ -1,4 +1,4 @@
-import createBrand from "./db/brand";
+import createBrand from "../db/brand";
 
 export class BrandService {
     private brand: ReturnType<typeof createBrand>;
