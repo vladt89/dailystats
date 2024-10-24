@@ -19,6 +19,13 @@ Run the application: `npm start`
 To generate small amount of data you need to add environment variable `CREATE_SOME_DATA=true`, otherwise, the
 database will be empty.
 
+In case you ran the application with `CREATE_SOME_DATA=true`, you will be able to retrieve some 
+data using GET operations. One nice way to do it - to use the swagger, but going to `http://localhost:3333/api-docs/#/`.
+
+In case you need more data to add, it is restricted by only adding the brand using other tools like Curl or Postman,
+even though the services actually are able to add the entities, like it is either done in unit tests or while creating 
+some data in the database.
+
 ### Environment
 
 node: v20.17.0

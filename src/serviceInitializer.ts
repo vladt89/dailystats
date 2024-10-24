@@ -21,17 +21,25 @@ const initializeServices = async (createSomeData?: boolean) => {
         console.log("Creating some data...");
         
         const nikeBrand = await brandService.addBrand("Nike");
-        await brandService.addBrand("Adidas");
+        const adidasBrand = await brandService.addBrand("Adidas");
         await brandService.addBrand("Hoka");
         
         let asinForNike;
         if (nikeBrand !== undefined) {
-            asinForNike = await asinService.addAsin("B017VXKVXE", nikeBrand.id);
+            asinForNike = await asinService.addAsin("NIKE_ASIN", nikeBrand.id);
+        }
+        let asinForAdidas;
+        if (adidasBrand !== undefined) {
+            asinForAdidas = await asinService.addAsin("ADIDAS_ASIN", adidasBrand.id);
         }
         
         let amazonListing;
         if (asinForNike !== undefined) {
             amazonListing = await listingService.addListing("amazon", asinForNike.id);
+        }
+        let ebayListing;
+        if (asinForAdidas) {
+            ebayListing = await listingService.addListing("ebay", asinForAdidas.id);
         }
         
         if (amazonListing !== undefined) {
@@ -39,6 +47,14 @@ const initializeServices = async (createSomeData?: boolean) => {
                 clickAmount: 10,
                 viewTimeSec: 300,
                 listingId: amazonListing.id,
+            });
+        }
+
+        if (ebayListing !== undefined) {
+            await statsService.createStats({
+                clickAmount: 555,
+                viewTimeSec: 20000,
+                listingId: ebayListing.id,
             });
         }
 
