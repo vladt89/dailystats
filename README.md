@@ -19,3 +19,7 @@ Run the application: `npm start`
 To generate small amount of data you need to add environment variable `CREATE_SOME_DATA=true`, otherwise, the
 database will be empty.
 
+### Environment
+
+node: v20.17.0
+npm: 10.8.2

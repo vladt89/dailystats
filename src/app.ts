@@ -1,5 +1,8 @@
 import express, {Request, Response} from 'express';
 import initializeServices, {asinService, brandService, listingService, statsService} from "./serviceInitializer";
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import brandRoute from "./routes/brandRoute";
 
 const app = express();
 const port = 3333;
@@ -7,6 +10,26 @@ const port = 3333;
 const CREATE_SOME_DATA = process.env.CREATE_SOME_DATA === 'true';
 
 app.use(express.json());
+
+const swaggerOptions: swaggerJsdoc.Options = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'My API',
+            version: '1.0.0',
+            description: 'API Documentation for My Express App',
+        },
+        servers: [
+            {
+                url: `http://localhost:${port}`,
+            },
+        ],
+    },
+    apis: ['./src/routes/*.ts'],
+};
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api', brandRoute);
 
 app.get('/brands', async (req: Request, res: Response) => {
     const brands = await brandService.fetchAllBrands();
