@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, {Request, Response} from 'express';
 import initializeServices, {asinService, brandService, listingService, statsService} from "./serviceInitializer";
 
 const app = express();
@@ -35,13 +35,13 @@ app.get('/statistics/:brand/:asin/:day', async (req: Request, res: Response) => 
     const asin = req.params.asin;
     const asinData = await asinService.fetchAsinByAsinAndBrandId(asin, brand.id);
     if (asinData === null) {
-        res.status(404).json({error: `ASIN with value ${asin} and correlated brand id ${brand.id} is not found`});
+        res.status(404).json({error: `ASIN with value ${asin} and correlated brand id is not found`});
         return;
     }
     
     const listing = await listingService.fetchListingByAsin(asinData.id);
     if (listing === null) {
-        res.status(404).json({error: `Listing for asin id ${asinData.id} is not found`});
+        res.status(404).json({error: `Listing for asin ${asin} is not found`});
         return;
     }
 
