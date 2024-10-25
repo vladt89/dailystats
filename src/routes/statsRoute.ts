@@ -49,4 +49,57 @@ router.get('/statistics/:brand/:asin/:day', (req, res) => {
     res.json([{ id: 1, clickAmount: 50, viewTimeSec: 3000 }]);
 });
 
+/**
+ * @swagger
+ * /statistics:
+ *   post:
+ *     summary: Add new statistics
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               clickAmount:
+ *                 type: integer
+ *               viewTimeSec:
+ *                 type: integer
+ *               listingId:
+ *                 type: integer
+ *               date:
+ *                 type: string
+ *                 format: date
+ *     responses:
+ *       201:
+ *         description: Statistics created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     clickAmount:
+ *                       type: integer
+ *                     viewTimeSec:
+ *                       type: integer
+ *                     listingId:
+ *                       type: integer
+ *                     date:
+ *                       type: string
+ *                       format: date
+ */
+router.post('/statistics', (req, res) => {
+    const { clickAmount, viewTimeSec, listingId, date } = req.body;
+    
+    res.status(201).json({
+        message: 'Statistics added successfully',
+        data: { clickAmount, viewTimeSec, listingId, date },
+    });
+});
+
 export default router;
