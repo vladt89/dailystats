@@ -48,6 +48,11 @@ app.post('/brands/:brandName', async (req: Request, res: Response) => {
     res.status(201).json(brand);
 });
 
+function isDay(day: string) {
+    const datePattern = /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/;
+    return datePattern.test(day);
+}
+
 app.get('/statistics/:brand/:asin/:day', async (req: Request, res: Response) => {
     const brandName = req.params.brand;
     
@@ -70,19 +75,17 @@ app.get('/statistics/:brand/:asin/:day', async (req: Request, res: Response) => 
         return;
     }
 
-    const day = req.params.day;
-    const datePattern = /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/;
-    if (!datePattern.test(day)) {
+    if (!isDay(req.params.day)) {
         res.status(400).json({error: 'Parameter day has a wrong type'});
         return;
     }
     
-    const dailyStats = await statsService.fetchStatsByListingAndDate(listing.id, day);
+    const dailyStats = await statsService.fetchStatsByListingAndDate(listing.id, req.params.day);
     res.json(dailyStats);
 });
 
 app.post('/statistics', async (req: Request, res: Response) => {
-    const { clickAmount, viewTimeSec, listingId } = req.body;
+    const { clickAmount, viewTimeSec, listingId, date } = req.body;
     
     if (!clickAmount) {
         res.status(400).json({error: 'Parameter clickAmount is missing'});
@@ -119,8 +122,13 @@ app.post('/statistics', async (req: Request, res: Response) => {
         res.status(400).json({error: `Listing with listingId ${listingId} is missing`});
         return;
     }
+
+    if (!isDay(date)) {
+        res.status(400).json({error: 'Parameter date has a wrong type'});
+        return;
+    }
     
-    const dailyStats = await statsService.createStats({clickAmount, viewTimeSec, listingId});
+    const dailyStats = await statsService.createStats({clickAmount, viewTimeSec, listingId, createdAt: date});
     res.status(201).json(dailyStats);
 });
 
