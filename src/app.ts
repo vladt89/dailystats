@@ -4,6 +4,8 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import brandRoute from "./routes/brandRoute";
 import statsRoute from "./routes/statsRoute";
+import asinRoute from "./routes/asinRoute";
+import listingRoute from "./routes/listingRoute";
 
 const app = express();
 const port = 3333;
@@ -32,10 +34,22 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api', brandRoute);
 app.use('/api', statsRoute);
+app.use('/api', asinRoute);
+app.use('/api', listingRoute);
 
 app.get('/brands', async (req: Request, res: Response) => {
     const brands = await brandService.fetchAllBrands();
     res.json(brands);
+});
+
+app.get('/asins', async (req: Request, res: Response) => {
+    const asins = await asinService.fetchAllAsins();
+    res.json(asins);
+});
+
+app.get('/listings', async (req: Request, res: Response) => {
+    const listings = await listingService.fetchAllListings();
+    res.json(listings);
 });
 
 app.post('/brands/:brandName', async (req: Request, res: Response) => {

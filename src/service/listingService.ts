@@ -7,6 +7,10 @@ export class ListingService {
         this.listing = createListing();
     }
 
+    async fetchAllListings() {
+        return await this.listing.findAll();
+    }
+
     async addListing(marketplace: string, asinId: number) {
         let listing;
         try {

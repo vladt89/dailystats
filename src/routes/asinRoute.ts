@@ -4,13 +4,13 @@ const router = express.Router();
 
 /**
  * @swagger
- * /brands:
+ * /asins:
  *   get:
- *     summary: Get all brands
- *     description: Retrieve a list of all brands.
+ *     summary: Get all asins
+ *     description: Retrieve a list of all asins.
  *     responses:
  *       200:
- *         description: A list of brands
+ *         description: A list of asins
  *         content:
  *           application/json:
  *             schema:
@@ -20,8 +20,10 @@ const router = express.Router();
  *                 properties:
  *                   id:
  *                     type: integer
- *                   brandName:
+ *                   asin:
  *                     type: string
+ *                   brandId:
+ *                     type: integer
  *                   createdAt:
  *                     type: string
  *                     format: date
@@ -29,8 +31,8 @@ const router = express.Router();
  *                     type: string
  *                     format: date
  */
-router.get('/brands', (req, res) => {
-    res.json([{ id: 1, brandName: 'Asics', createdAt: new Date(), updatedAt: new Date() }]);
+router.get('/asins', (req, res) => {
+    res.json([{ id: 1, asin: 'ASIN_ASICS', brandId: 1, createdAt: new Date(), updatedAt: new Date() }]);
 });
 
 export default router;
