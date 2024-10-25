@@ -41,11 +41,24 @@ const initializeServices = async (createSomeData?: boolean) => {
         if (asinForAdidas) {
             ebayListing = await listingService.addListing("ebay", asinForAdidas.id);
         }
+
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        const formattedYesterday = yesterday.toISOString().split('T')[0];
+        const formattedToday = today.toISOString().split('T')[0];
         
         if (amazonListing !== undefined) {
             await statsService.createStats({
                 clickAmount: 10,
                 viewTimeSec: 300,
+                createdAt: formattedYesterday,
+                listingId: amazonListing.id,
+            });
+            await statsService.createStats({
+                clickAmount: 20,
+                viewTimeSec: 8754,
+                createdAt: formattedToday,
                 listingId: amazonListing.id,
             });
         }

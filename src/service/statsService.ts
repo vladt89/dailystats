@@ -26,7 +26,7 @@ export class StatsService {
         });
     }
 
-    async createStats(param: { clickAmount: number; viewTimeSec: number; listingId: number;  }) {
+    async createStats(param: { clickAmount: number; viewTimeSec: number; listingId: number; createdAt?: string }) {
         return await this.dailyStats.create(param);
     }
     

@@ -90,7 +90,7 @@ describe('test statistics', () => {
             listing = await listingService.addListing("FunMarketplace", asinData.id);
         }
         if (listing !== undefined) {
-            await statsService.createStats({clickAmount: 50, viewTimeSec: 3000, listingId: listing.id});
+            await statsService.createStats({clickAmount: 50, viewTimeSec: 3000, createdAt: "2020-10-10", listingId: listing.id});
         }
         // EXERCISE
         const getResponse = await request(app).get('/statistics/' + brandName + '/' + asin + '/2020-10-20');
